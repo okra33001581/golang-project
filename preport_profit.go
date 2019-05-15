@@ -13,21 +13,37 @@ import (
 )
 
 type Tweet struct {
-	Id            string `json:"id`
-	Sub_account   string `json:"sub_account`
-	Operate_name  string `json:"operate_name`
-	Log_content   string `json:"log_content`
-	Ip            string `json:"ip`
-	Cookies       string `json:"cookies`
-	Date          string `json:"date`
-	Merchant_id   string `json:"merchant_id`
-	Merchant_name string `json:"merchant_name`
-	Created_at    string `json:"created_at`
-	Origin        string `json:"origin`
-	Referer       string `json:"referer`
-	User_agent    string `json:"user_agent`
-	Type          string `json:"type`
+	Id string `json:" id `
+    Merchant_id string `json:" merchant_id `
+    Merchant_name string `json:" merchant_name `
+    User_id string `json:" user_id `
+    Username string `json:" username `
+    Group string `json:" group `
+    Total_project string `json:" total_project `
+    Valid_project string `json:" valid_project `
+    Prize_total_amount string `json:" prize_total_amount `
+    Rebate_amount string `json:" rebate_amount `
+    Game_profit_loss string `json:" game_profit_loss `
+    Profit_ratio string `json:" profit_ratio `
+    Project_count string `json:" project_count `
+    Active_count string `json:" active_count `
+    Date string `json:" date `
 }
+id
+merchant_id
+merchant_name
+user_id
+username
+group
+total_project
+valid_project
+prize_total_amount
+rebate_amount
+game_profit_loss
+profit_ratio
+project_count
+active_count
+date
 
 func main() {
 	client, err := elastic.NewClient(elastic.SetURL("http://192.168.36.147:9200"))
@@ -39,16 +55,16 @@ func main() {
 
 	checkErr(err)
 
-	rows, err := db.Query("SELECT id, type, sub_account,operate_name,log_content,ip,cookies,date,merchant_id,merchant_name,created_at,origin,referer,user_agent FROM log_admin")
+	rows, err := db.Query("SELECT id,merchant_id,merchant_name,user_id,username,group,total_project,valid_project,prize_total_amount,rebate_amount,game_profit_loss,profit_ratio,project_count,active_count,date FROM log_admin")
 	checkErr(err)
 	bulkRequest := client.Bulk()
 	for rows.Next() {
-		var id, type1, sub_account, operate_name, log_content, ip, cookies, date, merchant_id, merchant_name, created_at, origin, referer, user_agent string
-		if err := rows.Scan(&id, &type1, &sub_account, &operate_name, &log_content, &ip, &cookies, &date, &merchant_id, &merchant_name, &created_at, &origin, &referer, &user_agent); err == nil {
+		var id,merchant_id,merchant_name,user_id,username,group,total_project,valid_project,prize_total_amount,rebate_amount,game_profit_loss,profit_ratio,project_count,active_count,date string
+		if err := rows.Scan(&id,&merchant_id,&merchant_name,&user_id,&username,&group,&total_project,&valid_project,&prize_total_amount,&rebate_amount,&game_profit_loss,&profit_ratio,&project_count,&active_count,&date); err == nil {
 			fmt.Println(err)
 		}
 
-		tweet := Tweet{Id: id, Sub_account: sub_account, Operate_name: operate_name, Log_content: log_content, Ip: ip, Cookies: cookies, Date: date, Merchant_id: merchant_id, Merchant_name: merchant_name, Created_at: created_at, Origin: origin, Referer: referer, User_agent: user_agent, Type: type1}
+		tweet := Tweet{Id: Id:id,Merchant_id:merchant_id,Merchant_name:merchant_name,User_id:user_id,Username:username,Group:group,Total_project:total_project,Valid_project:valid_project,Prize_total_amount:prize_total_amount,Rebate_amount:rebate_amount,Game_profit_loss:game_profit_loss,Profit_ratio:profit_ratio,Project_count:project_count,Active_count:active_count,Date:date}
 		// req := elastic.NewBulkIndexRequest().Index("log_admin").Type("log_admin").Id(id).Doc(tweet)
 		req := elastic.NewBulkIndexRequest().Index("log_admin1").Type("log_admin1").Id(id).Doc(tweet)
 		bulkRequest = bulkRequest.Add(req)
