@@ -64,7 +64,7 @@ func main() {
 
 		tweet := Tweet{Id:id,Date:date,Ip_count:ip_count,Register_count:register_count,Active_count:active_count,First_deposit_count:first_deposit_count,First_deposit_amount:first_deposit_amount,In_people_count:in_people_count,In_times:in_times,Out_times:out_times,Merchant_id:merchant_id,Merchant_name:merchant_name,Platform:platform,Model:model}
 		// req := elastic.NewBulkIndexRequest().Index("log_admin").Type("log_admin").Id(id).Doc(tweet)
-		req := elastic.NewBulkIndexRequest().Index("log_admin1").Type("log_admin1").Id(id).Doc(tweet)
+		req := elastic.NewBulkIndexRequest().Index("report_user").Type("report_user").Id(id).Doc(tweet)
 		bulkRequest = bulkRequest.Add(req)
 
 		// fmt.Println(type1)
