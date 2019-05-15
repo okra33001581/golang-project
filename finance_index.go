@@ -13,20 +13,22 @@ import (
 )
 
 type Tweet struct {
-	Id            string `json:"id`
-	Sub_account   string `json:"sub_account`
-	Operate_name  string `json:"operate_name`
-	Log_content   string `json:"log_content`
-	Ip            string `json:"ip`
-	Cookies       string `json:"cookies`
-	Date          string `json:"date`
-	Merchant_id   string `json:"merchant_id`
-	Merchant_name string `json:"merchant_name`
-	Created_at    string `json:"created_at`
-	Origin        string `json:"origin`
-	Referer       string `json:"referer`
-	User_agent    string `json:"user_agent`
-	Type          string `json:"type`
+        Id		string `json:"id`
+        Date		string `json:"date`
+        Company_in		string `json:"company_in`
+        Third_in		string `json:"third_in`
+        Deposit		string `json:"deposit`
+        Common_deposit		string `json:"common_deposit`
+        Benefit		string `json:"benefit`
+        Total_rebate		string `json:"total_rebate`
+        Day_salary		string `json:"day_salary`
+        Bankcard_out		string `json:"bankcard_out`
+        Third_out		string `json:"third_out`
+        User_subtraction		string `json:"user_subtraction`
+        Artifical_withdraw		string `json:"artifical_withdraw`
+        Total		string `json:"total`
+        Merchant_id		string `json:"merchant_id`
+        Merchant_name		string `json:"merchant_name`
 }
 
 func main() {
@@ -39,18 +41,18 @@ func main() {
 
 	checkErr(err)
 
-	rows, err := db.Query("SELECT id, type, sub_account,operate_name,log_content,ip,cookies,date,merchant_id,merchant_name,created_at,origin,referer,user_agent FROM log_admin")
+	rows, err := db.Query("SELECT id,date,company_in,third_in,deposit,common_deposit,benefit,total_rebate,day_salary,bankcard_out,third_out,user_subtraction,artifical_withdraw,otal,merchant_id,merchant_name FROM report_finance")
 	checkErr(err)
 	bulkRequest := client.Bulk()
 	for rows.Next() {
-		var id, type1, sub_account, operate_name, log_content, ip, cookies, date, merchant_id, merchant_name, created_at, origin, referer, user_agent string
-		if err := rows.Scan(&id, &type1, &sub_account, &operate_name, &log_content, &ip, &cookies, &date, &merchant_id, &merchant_name, &created_at, &origin, &referer, &user_agent); err == nil {
+		var id,date,company_in,third_in,deposit,common_deposit,benefit,total_rebate,day_salary,bankcard_out,third_out,user_subtraction,artifical_withdraw,otal,merchant_id,merchant_name string
+		if err := rows.Scan(&id,&date,&company_in,&third_in,&deposit,&common_deposit,&benefit,&total_rebate,&day_salary,&bankcard_out,&third_out,&user_subtraction,&artifical_withdraw,&otal,&merchant_id,&merchant_name); err == nil {
 			fmt.Println(err)
 		}
 
-		tweet := Tweet{Id: id, Sub_account: sub_account, Operate_name: operate_name, Log_content: log_content, Ip: ip, Cookies: cookies, Date: date, Merchant_id: merchant_id, Merchant_name: merchant_name, Created_at: created_at, Origin: origin, Referer: referer, User_agent: user_agent, Type: type1}
+		tweet := Tweet{Id: id,Date: date,Company_in: company_in,Third_in: third_in,Deposit : deposit ,Common_deposit: common_deposit,Benefit : benefit ,Total_rebate: total_rebate,Day_salary: day_salary,Bankcard_out: bankcard_out,Third_out : third_out ,User_subtraction: user_subtraction,Artifical_withdraw: artifical_withdraw,Total : total ,Merchant_id : merchant_id ,Merchant_name : merchant_name}
 		// req := elastic.NewBulkIndexRequest().Index("log_admin").Type("log_admin").Id(id).Doc(tweet)
-		req := elastic.NewBulkIndexRequest().Index("log_admin1").Type("log_admin1").Id(id).Doc(tweet)
+		req := elastic.NewBulkIndexRequest().Index("report_finance").Type("report_finance").Id(id).Doc(tweet)
 		bulkRequest = bulkRequest.Add(req)
 
 		// fmt.Println(type1)
