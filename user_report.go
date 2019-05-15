@@ -28,20 +28,6 @@ type Tweet struct {
             Platform string`json:"platform`
             Model string`json:"model`
 }
-id
-date
-ip_count
-register_count
-active_count
-first_deposit_count
-first_deposit_amount
-in_people_count
-in_times
-out_times
-merchant_id
-merchant_name
-platform
-model
 
 func main() {
 	client, err := elastic.NewClient(elastic.SetURL("http://192.168.36.147:9200"))

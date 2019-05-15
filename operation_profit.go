@@ -35,31 +35,6 @@ type Tweet struct {
             Model string`json:"model`
 }
 
-id
-merchant_id
-merchant_name
-user_id
-username
-group
-in_total_amount
-total_out_amount
-valid_profit
-sum_turnover
-prize_amount
-rebate_amount
-game_profit_loss
-benefit_amount
-day_salary
-system_subtraction
-final_amount
-date
-platform
-model
-
-
-
-
-
 func main() {
 	client, err := elastic.NewClient(elastic.SetURL("http://192.168.36.147:9200"))
 	if err != nil {

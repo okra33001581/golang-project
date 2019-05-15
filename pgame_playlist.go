@@ -35,27 +35,6 @@ type Tweet struct {
     Merchant_id string`json:"merchant_id`
     Merchant_name string`json:"merchant_name`
 }
-id
-project
-user_id
-uername
-date
-lottery
-issue_count
-prize_number
-way
-dynamic_prize
-project_content
-multiple
-total_amount
-mode
-prize_amount
-prize_status
-status
-rebate_amount
-way_type
-merchant_id
-merchant_name
 
 func main() {
 	client, err := elastic.NewClient(elastic.SetURL("http://192.168.36.147:9200"))

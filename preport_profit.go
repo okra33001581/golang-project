@@ -29,21 +29,6 @@ type Tweet struct {
     Active_count string `json:" active_count `
     Date string `json:" date `
 }
-id
-merchant_id
-merchant_name
-user_id
-username
-group
-total_project
-valid_project
-prize_total_amount
-rebate_amount
-game_profit_loss
-profit_ratio
-project_count
-active_count
-date
 
 func main() {
 	client, err := elastic.NewClient(elastic.SetURL("http://192.168.36.147:9200"))
