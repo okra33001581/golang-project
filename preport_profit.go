@@ -55,7 +55,7 @@ func main() {
 
 	checkErr(err)
 
-	rows, err := db.Query("SELECT id,merchant_id,merchant_name,user_id,username,group,total_project,valid_project,prize_total_amount,rebate_amount,game_profit_loss,profit_ratio,project_count,active_count,date FROM log_admin")
+	rows, err := db.Query("SELECT id,merchant_id,merchant_name,user_id,username,group,total_project,valid_project,prize_total_amount,rebate_amount,game_profit_loss,profit_ratio,project_count,active_count,date FROM report_platform")
 	checkErr(err)
 	bulkRequest := client.Bulk()
 	for rows.Next() {
@@ -65,8 +65,8 @@ func main() {
 		}
 
 		tweet := Tweet{Id: Id:id,Merchant_id:merchant_id,Merchant_name:merchant_name,User_id:user_id,Username:username,Group:group,Total_project:total_project,Valid_project:valid_project,Prize_total_amount:prize_total_amount,Rebate_amount:rebate_amount,Game_profit_loss:game_profit_loss,Profit_ratio:profit_ratio,Project_count:project_count,Active_count:active_count,Date:date}
-		// req := elastic.NewBulkIndexRequest().Index("log_admin").Type("log_admin").Id(id).Doc(tweet)
-		req := elastic.NewBulkIndexRequest().Index("log_admin1").Type("log_admin1").Id(id).Doc(tweet)
+		// req := elastic.NewBulkIndexRequest().Index("report_platform").Type("report_platform").Id(id).Doc(tweet)
+		req := elastic.NewBulkIndexRequest().Index("report_platform1").Type("report_platform1").Id(id).Doc(tweet)
 		bulkRequest = bulkRequest.Add(req)
 
 		// fmt.Println(type1)

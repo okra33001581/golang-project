@@ -51,7 +51,7 @@ func main() {
 		}
 
 		tweet := Tweet{Id: id,Date: date,Company_in: company_in,Third_in: third_in,Deposit : deposit ,Common_deposit: common_deposit,Benefit : benefit ,Total_rebate: total_rebate,Day_salary: day_salary,Bankcard_out: bankcard_out,Third_out : third_out ,User_subtraction: user_subtraction,Artifical_withdraw: artifical_withdraw,Total : total ,Merchant_id : merchant_id ,Merchant_name : merchant_name}
-		// req := elastic.NewBulkIndexRequest().Index("log_admin").Type("log_admin").Id(id).Doc(tweet)
+		// req := elastic.NewBulkIndexRequest().Index("report_finance").Type("report_finance").Id(id).Doc(tweet)
 		req := elastic.NewBulkIndexRequest().Index("report_finance").Type("report_finance").Id(id).Doc(tweet)
 		bulkRequest = bulkRequest.Add(req)
 
