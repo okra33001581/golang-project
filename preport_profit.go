@@ -50,14 +50,8 @@ func main() {
 		}
 
 		tweet := Tweet{Id: Id:id,Merchant_id:merchant_id,Merchant_name:merchant_name,User_id:user_id,Username:username,Group:group,Total_project:total_project,Valid_project:valid_project,Prize_total_amount:prize_total_amount,Rebate_amount:rebate_amount,Game_profit_loss:game_profit_loss,Profit_ratio:profit_ratio,Project_count:project_count,Active_count:active_count,Date:date}
-		// req := elastic.NewBulkIndexRequest().Index("report_platform").Type("report_platform").Id(id).Doc(tweet)
 		req := elastic.NewBulkIndexRequest().Index("report_platform1").Type("report_platform1").Id(id).Doc(tweet)
 		bulkRequest = bulkRequest.Add(req)
-
-		// fmt.Println(type1)
-		// fmt.Println(rows["id"])
-		// fmt.Println(sub_account)
-		// fmt.Println(operate_name)
 	}
 
 	bulkResponse, err := bulkRequest.Do(context.TODO())
@@ -67,25 +61,6 @@ func main() {
 	if bulkResponse != nil {
 
 	}
-
-	// n := 0
-	// for i := 0; i < 1000; i++ {
-	// 	bulkRequest := client.Bulk()
-	// 	for j := 0; j < 10000; j++ {
-	// 		n++
-	// 		tweet := Tweet{User: "olivere", Message: "Package strconv implements conversions to and from string representations of basic data types. " + strconv.Itoa(n)}
-	// 		req := elastic.NewBulkIndexRequest().Index("twitter").Type("tweet").Id(strconv.Itoa(n)).Doc(tweet)
-	// 		bulkRequest = bulkRequest.Add(req)
-	// 	}
-	// 	bulkResponse, err := bulkRequest.Do(context.TODO())
-	// 	if err != nil {
-	// 		fmt.Println(err)
-	// 	}
-	// 	if bulkResponse != nil {
-
-	// 	}
-	// 	fmt.Println(i)
-	// }
 }
 func checkErr(err error) {
 	if err != nil {
