@@ -10,24 +10,26 @@ import (
 	"database/sql"
 
 	_ "github.com/go-sql-driver/mysql"
+
+	"time"
 )
 
 type Tweet struct {
-	Id string `json:" id `
-    Merchant_id string `json:" merchant_id `
-    Merchant_name string `json:" merchant_name `
-    User_id string `json:" user_id `
-    Username string `json:" username `
-    Group string `json:" group `
-    Total_project string `json:" total_project `
-    Valid_project string `json:" valid_project `
-    Prize_total_amount string `json:" prize_total_amount `
-    Rebate_amount string `json:" rebate_amount `
-    Game_profit_loss string `json:" game_profit_loss `
-    Profit_ratio string `json:" profit_ratio `
-    Project_count string `json:" project_count `
-    Active_count string `json:" active_count `
-    Date string `json:" date `
+	Id                 string    `json:"id`
+	Merchant_id        string    `json:"merchant_id`
+	Merchant_name      string    `json:"merchant_name`
+	User_id            string    `json:"user_id`
+	Username           string    `json:"username`
+	Group_tmp          string    `json:"group_tmp`
+	Total_project      string    `json:"total_project`
+	Valid_project      string    `json:"valid_project`
+	Prize_total_amount string    `json:"prize_total_amount`
+	Rebate_amount      string    `json:"rebate_amount`
+	Game_profit_loss   string    `json:"game_profit_loss`
+	Profit_ratio       string    `json:"profit_ratio`
+	Project_count      string    `json:"project_count`
+	Active_count       string    `json:"active_count`
+	Date               time.Time `json:"date`
 }
 
 func main() {
@@ -40,17 +42,19 @@ func main() {
 
 	checkErr(err)
 
-	rows, err := db.Query("SELECT id,merchant_id,merchant_name,user_id,username,group,total_project,valid_project,prize_total_amount,rebate_amount,game_profit_loss,profit_ratio,project_count,active_count,date FROM report_platform")
+	rows, err := db.Query("SELECT id,merchant_id,merchant_name,user_id,username,group_tmp,total_project,valid_project,prize_total_amount,rebate_amount,game_profit_loss,profit_ratio,project_count,active_count,date FROM report_platform")
 	checkErr(err)
 	bulkRequest := client.Bulk()
 	for rows.Next() {
-		var id,merchant_id,merchant_name,user_id,username,group,total_project,valid_project,prize_total_amount,rebate_amount,game_profit_loss,profit_ratio,project_count,active_count,date string
-		if err := rows.Scan(&id,&merchant_id,&merchant_name,&user_id,&username,&group,&total_project,&valid_project,&prize_total_amount,&rebate_amount,&game_profit_loss,&profit_ratio,&project_count,&active_count,&date); err == nil {
+		var id, merchant_id, merchant_name, user_id, username, group_tmp, total_project, valid_project, prize_total_amount, rebate_amount, game_profit_loss, profit_ratio, project_count, active_count, date string
+		if err := rows.Scan(&id, &merchant_id, &merchant_name, &user_id, &username, &group_tmp, &total_project, &valid_project, &prize_total_amount, &rebate_amount, &game_profit_loss, &profit_ratio, &project_count, &active_count, &date); err == nil {
 			fmt.Println(err)
 		}
 
-		tweet := Tweet{Id: Id:id,Merchant_id:merchant_id,Merchant_name:merchant_name,User_id:user_id,Username:username,Group:group,Total_project:total_project,Valid_project:valid_project,Prize_total_amount:prize_total_amount,Rebate_amount:rebate_amount,Game_profit_loss:game_profit_loss,Profit_ratio:profit_ratio,Project_count:project_count,Active_count:active_count,Date:date}
-		req := elastic.NewBulkIndexRequest().Index("report_platform1").Type("report_platform1").Id(id).Doc(tweet)
+		date_final, _ := time.Parse("2006-01-02 15:04:05", date)
+
+		tweet := Tweet{Id: id, Merchant_id: merchant_id, Merchant_name: merchant_name, User_id: user_id, Username: username, Group_tmp: group_tmp, Total_project: total_project, Valid_project: valid_project, Prize_total_amount: prize_total_amount, Rebate_amount: rebate_amount, Game_profit_loss: game_profit_loss, Profit_ratio: profit_ratio, Project_count: project_count, Active_count: active_count, Date: date_final}
+		req := elastic.NewBulkIndexRequest().Index("report_platform").Type("report_platform").Id(id).Doc(tweet)
 		bulkRequest = bulkRequest.Add(req)
 	}
 
