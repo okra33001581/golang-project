@@ -11,6 +11,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 
+	"os"
 	"time"
 )
 
@@ -45,6 +46,7 @@ func main() {
 	rows, err := db.Query("SELECT id,merchant_id,merchant_name,user_id,username,group_tmp,total_project,valid_project,prize_total_amount,rebate_amount,game_profit_loss,profit_ratio,project_count,active_count,date FROM report_platform")
 	checkErr(err)
 	bulkRequest := client.Bulk()
+	n := 0
 	for rows.Next() {
 		var id, merchant_id, merchant_name, user_id, username, group_tmp, total_project, valid_project, prize_total_amount, rebate_amount, game_profit_loss, profit_ratio, project_count, active_count, date string
 		if err := rows.Scan(&id, &merchant_id, &merchant_name, &user_id, &username, &group_tmp, &total_project, &valid_project, &prize_total_amount, &rebate_amount, &game_profit_loss, &profit_ratio, &project_count, &active_count, &date); err == nil {
@@ -56,6 +58,17 @@ func main() {
 		tweet := Tweet{Id: id, Merchant_id: merchant_id, Merchant_name: merchant_name, User_id: user_id, Username: username, Group_tmp: group_tmp, Total_project: total_project, Valid_project: valid_project, Prize_total_amount: prize_total_amount, Rebate_amount: rebate_amount, Game_profit_loss: game_profit_loss, Profit_ratio: profit_ratio, Project_count: project_count, Active_count: active_count, Date: date_final}
 		req := elastic.NewBulkIndexRequest().Index("report_platform").Type("report_platform").Id(id).Doc(tweet)
 		bulkRequest = bulkRequest.Add(req)
+
+		if n%20000 == 0 {
+			bulkResponse, err := bulkRequest.Do(context.TODO())
+			if err != nil {
+				fmt.Println(err)
+			}
+			if bulkResponse != nil {
+
+			}
+			n = 0
+		}
 	}
 
 	bulkResponse, err := bulkRequest.Do(context.TODO())
@@ -65,6 +78,9 @@ func main() {
 	if bulkResponse != nil {
 
 	}
+
+	os.Exit(3)
+	fmt.Println("sucess")
 }
 func checkErr(err error) {
 	if err != nil {

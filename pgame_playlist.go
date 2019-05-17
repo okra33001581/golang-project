@@ -9,6 +9,7 @@ import (
 
 	"database/sql"
 
+	"os"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -51,6 +52,7 @@ func main() {
 	rows, err := db.Query("SELECT id,project,user_id,uername,date,lottery,issue_count,prize_number,way,dynamic_prize,project_content,multiple,total_amount,mode,prize_amount,prize_status,status,rebate_amount,way_type,merchant_id,merchant_name FROM report_pgame_playlist")
 	checkErr(err)
 	bulkRequest := client.Bulk()
+	n := 0
 	for rows.Next() {
 		var id, project, user_id, uername, date, lottery, issue_count, prize_number, way, dynamic_prize, project_content, multiple, total_amount, mode, prize_amount, prize_status, status, rebate_amount, way_type, merchant_id, merchant_name string
 		if err := rows.Scan(&id, &project, &user_id, &uername, &date, &lottery, &issue_count, &prize_number, &way, &dynamic_prize, &project_content, &multiple, &total_amount, &mode, &prize_amount, &prize_status, &status, &rebate_amount, &way_type, &merchant_id, &merchant_name); err == nil {
@@ -62,6 +64,17 @@ func main() {
 		tweet := Tweet{Id: id, Project: project, User_id: user_id, Uername: uername, Date: date_final, Lottery: lottery, Issue_count: issue_count, Prize_number: prize_number, Way: way, Dynamic_prize: dynamic_prize, Project_content: project_content, Multiple: multiple, Total_amount: total_amount, Mode: mode, Prize_amount: prize_amount, Prize_status: prize_status, Status: status, Rebate_amount: rebate_amount, Way_type: way_type, Merchant_id: merchant_id, Merchant_name: merchant_name}
 		req := elastic.NewBulkIndexRequest().Index("report_pgame_playlist").Type("report_pgame_playlist").Id(id).Doc(tweet)
 		bulkRequest = bulkRequest.Add(req)
+
+		if n%20000 == 0 {
+			bulkResponse, err := bulkRequest.Do(context.TODO())
+			if err != nil {
+				fmt.Println(err)
+			}
+			if bulkResponse != nil {
+
+			}
+			n = 0
+		}
 	}
 
 	bulkResponse, err := bulkRequest.Do(context.TODO())
@@ -71,6 +84,9 @@ func main() {
 	if bulkResponse != nil {
 
 	}
+
+	os.Exit(3)
+	fmt.Println("sucess")
 }
 func checkErr(err error) {
 	if err != nil {

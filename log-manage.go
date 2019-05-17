@@ -11,7 +11,7 @@ import (
 
 	"time"
 
-	// "os"
+	"os"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -56,7 +56,9 @@ func main() {
 	rows, err := db.Query("SELECT id, type, sub_account,operate_name,log_content,ip,cookies,date,merchant_id,merchant_name,created_at,origin,referer,user_agent FROM log_admin")
 	checkErr(err)
 	bulkRequest := client.Bulk()
+	n := 0
 	for rows.Next() {
+		n++
 		var id, type1, sub_account, operate_name, log_content, ip, cookies, date, merchant_id, merchant_name, created_at, origin, referer, user_agent string
 		// thisdate := "2014-03-17 14:55:06"
 		// fmt.Println(&date)
@@ -74,8 +76,20 @@ func main() {
 		tweet := Tweet{Id: id, Sub_account: sub_account, Operate_name: operate_name, Log_content: log_content, Ip: ip, Cookies: cookies, Date: date_final, Merchant_id: merchant_id, Merchant_name: merchant_name, Created_at: created_at_final, Origin: origin, Referer: referer, User_agent: user_agent, Type: type1}
 		// fmt.Println(tweet)
 		// os.Exit(3)
-		req := elastic.NewBulkIndexRequest().Index("log_admin").Type("log_admin").Id(id).Doc(tweet)
+		req := elastic.NewBulkIndexRequest().Index("log_admin").Type("doc").Id(id).Doc(tweet)
 		bulkRequest = bulkRequest.Add(req)
+
+		if n%20000 == 0 {
+			bulkResponse, err := bulkRequest.Do(context.TODO())
+			if err != nil {
+				fmt.Println(err)
+			}
+			if bulkResponse != nil {
+
+			}
+			n = 0
+		}
+
 	}
 
 	bulkResponse, err := bulkRequest.Do(context.TODO())
@@ -85,6 +99,9 @@ func main() {
 	if bulkResponse != nil {
 
 	}
+
+	os.Exit(3)
+	fmt.Println("sucess")
 }
 func checkErr(err error) {
 	if err != nil {

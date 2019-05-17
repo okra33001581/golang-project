@@ -8,6 +8,7 @@ import (
 	"gopkg.in/olivere/elastic.v6"
 
 	"database/sql"
+	"os"
 
 	_ "github.com/go-sql-driver/mysql"
 
@@ -46,6 +47,7 @@ func main() {
 	rows, err := db.Query("SELECT id,date,company_in,third_in,deposit,common_deposit,benefit,total_rebate,day_salary,bankcard_out,third_out,user_subtraction,artifical_withdraw,total,merchant_id,merchant_name FROM report_finance")
 	checkErr(err)
 	bulkRequest := client.Bulk()
+	n := 0
 	for rows.Next() {
 		var id, date, company_in, third_in, deposit, common_deposit, benefit, total_rebate, day_salary, bankcard_out, third_out, user_subtraction, artifical_withdraw, total, merchant_id, merchant_name string
 		if err := rows.Scan(&id, &date, &company_in, &third_in, &deposit, &common_deposit, &benefit, &total_rebate, &day_salary, &bankcard_out, &third_out, &user_subtraction, &artifical_withdraw, &total, &merchant_id, &merchant_name); err == nil {
@@ -58,6 +60,17 @@ func main() {
 		tweet := Tweet{Id: id, Date: date_final, Company_in: company_in, Third_in: third_in, Deposit: deposit, Common_deposit: common_deposit, Benefit: benefit, Total_rebate: total_rebate, Day_salary: day_salary, Bankcard_out: bankcard_out, Third_out: third_out, User_subtraction: user_subtraction, Artifical_withdraw: artifical_withdraw, Total: total, Merchant_id: merchant_id, Merchant_name: merchant_name}
 		req := elastic.NewBulkIndexRequest().Index("report_finance").Type("report_finance").Id(id).Doc(tweet)
 		bulkRequest = bulkRequest.Add(req)
+
+		if n%20000 == 0 {
+			bulkResponse, err := bulkRequest.Do(context.TODO())
+			if err != nil {
+				fmt.Println(err)
+			}
+			if bulkResponse != nil {
+
+			}
+			n = 0
+		}
 	}
 
 	bulkResponse, err := bulkRequest.Do(context.TODO())
@@ -67,6 +80,9 @@ func main() {
 	if bulkResponse != nil {
 
 	}
+
+	os.Exit(3)
+	fmt.Println("sucess")
 }
 func checkErr(err error) {
 	if err != nil {
