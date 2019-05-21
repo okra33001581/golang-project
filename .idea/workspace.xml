@@ -2,14 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ba5008df-e9e5-4b24-9e36-0c6cdf74cef4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/finance_index" beforeDir="false" afterPath="$PROJECT_DIR$/finance_index" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log-manage" beforeDir="false" afterPath="$PROJECT_DIR$/log-manage" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log-manage.go" beforeDir="false" afterPath="$PROJECT_DIR$/log-manage.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operation_profit" beforeDir="false" afterPath="$PROJECT_DIR$/operation_profit" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/operation_profit.go" beforeDir="false" afterPath="$PROJECT_DIR$/operation_profit.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pgame_playlist" beforeDir="false" afterPath="$PROJECT_DIR$/pgame_playlist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preport_profit" beforeDir="false" afterPath="$PROJECT_DIR$/preport_profit" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_report" beforeDir="false" afterPath="$PROJECT_DIR$/user_report" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/finance_index.go" beforeDir="false" afterPath="$PROJECT_DIR$/finance_index.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -32,8 +28,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -63,6 +59,7 @@
       <updated>1557889238082</updated>
       <workItem from="1557889240932" duration="693000" />
       <workItem from="1557978761736" duration="2226000" />
+      <workItem from="1558339365497" duration="592000" />
     </task>
     <task id="LOCAL-00001" summary="add">
       <created>1557889271575</created>
@@ -74,13 +71,12 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2226000" />
+    <option name="totallyTimeSpent" value="2818000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="64" y="-11" width="1857" height="984" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25262576" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25538972" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />

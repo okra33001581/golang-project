@@ -2,8 +2,15 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/araddon/gou" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/astaxie/beego" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/bitly/go-hostpool" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/github.com/go-sql-driver/mysql" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/github.com/mailru/easyjson" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/mattbaird/elastigo" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/mattbaird/elastigo/cookbooks/apt" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/mattbaird/elastigo/cookbooks/elasticsearch" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/mattbaird/elastigo/cookbooks/java" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/github.com/olivere/elastic" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/github.com/pkg/errors" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/src/gopkg.in/olivere/elastic.v6" vcs="Git" />

@@ -35,6 +35,9 @@ type Tweet struct {
 }
 
 func main() {
+
+	t1 := time.Now() // get current time
+
 	client, err := elastic.NewClient(elastic.SetURL("http://192.168.36.147:9200"))
 	if err != nil {
 		fmt.Println("%v", err)
@@ -42,12 +45,12 @@ func main() {
 
 	db, err := sql.Open("mysql", "root:123456@tcp(192.168.36.147:3306)/api?charset=utf8")
 
-	checkErr(err)
+	// checkErr(err)
 
-	rows, err := db.Query("SELECT id,date,company_in,third_in,deposit,common_deposit,benefit,total_rebate,day_salary,bankcard_out,third_out,user_subtraction,artifical_withdraw,total,merchant_id,merchant_name FROM report_finance")
-	checkErr(err)
+	rows, err := db.Query("SELECT id,date,company_in,third_in,deposit,common_deposit,benefit,total_rebate,day_salary,bankcard_out,third_out,user_subtraction,artifical_withdraw,total,merchant_id,merchant_name FROM report_finance limit 100000")
+	// checkErr(err)
 	bulkRequest := client.Bulk()
-	n := 0
+	// n := 0
 	for rows.Next() {
 		var id, date, company_in, third_in, deposit, common_deposit, benefit, total_rebate, day_salary, bankcard_out, third_out, user_subtraction, artifical_withdraw, total, merchant_id, merchant_name string
 		if err := rows.Scan(&id, &date, &company_in, &third_in, &deposit, &common_deposit, &benefit, &total_rebate, &day_salary, &bankcard_out, &third_out, &user_subtraction, &artifical_withdraw, &total, &merchant_id, &merchant_name); err == nil {
@@ -58,31 +61,36 @@ func main() {
 		// fmt.Println(timeformatdate)
 
 		tweet := Tweet{Id: id, Date: date_final, Company_in: company_in, Third_in: third_in, Deposit: deposit, Common_deposit: common_deposit, Benefit: benefit, Total_rebate: total_rebate, Day_salary: day_salary, Bankcard_out: bankcard_out, Third_out: third_out, User_subtraction: user_subtraction, Artifical_withdraw: artifical_withdraw, Total: total, Merchant_id: merchant_id, Merchant_name: merchant_name}
-		req := elastic.NewBulkIndexRequest().Index("report_finance").Type("report_finance").Id(id).Doc(tweet)
+		req := elastic.NewBulkIndexRequest().Index("report_finance").Type("doc").Id(id).Doc(tweet)
 		bulkRequest = bulkRequest.Add(req)
 
-		if n%20000 == 0 {
-			bulkResponse, err := bulkRequest.Do(context.TODO())
-			if err != nil {
-				fmt.Println(err)
-			}
-			if bulkResponse != nil {
+		// if n%20000 == 0 {
+		// 	bulkResponse, err := bulkRequest.Do(context.TODO())
+		// 	if err != nil {
+		// 		fmt.Println(err)
+		// 	}
+		// 	if bulkResponse != nil {
 
-			}
-			n = 0
-		}
+		// 	}
+		// 	n = 0
+		// }
 	}
 
 	bulkResponse, err := bulkRequest.Do(context.TODO())
 	if err != nil {
-		fmt.Println(err)
+		// fmt.Println(err)
 	}
 	if bulkResponse != nil {
 
 	}
 
-	os.Exit(3)
 	fmt.Println("sucess")
+
+	elapsed := time.Since(t1)
+	fmt.Println("App elapsed: ", elapsed)
+
+	os.Exit(3)
+
 }
 func checkErr(err error) {
 	if err != nil {
